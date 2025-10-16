@@ -10,14 +10,10 @@ const emit = defineEmits<{
   (e: 'save', account: Account): void
   (e: 'delete', id: string): void
 }>()
-
 const errors = reactive<FieldErrors>({})
 const state = reactive({ showPwd: false })
-
-// локальная копия пропа
 const local = reactive<DraftAccount>({ ...props.draft })
 
-// синхронизация, если родитель заменит draft (после save, например)
 watch(
   () => props.draft,
   (d) => {
@@ -48,7 +44,7 @@ function trySave() {
 watch(
   () => local.type,
   (t) => {
-    if (t === 'LDAP') local.password = '' // меняем ТОЛЬКО локальное состояние
+    if (t === 'LDAP') local.password = ''
     trySave()
   },
 )
